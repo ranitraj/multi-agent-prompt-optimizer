@@ -1,0 +1,90 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+# HELP:
+# 1. To update versions automatically, run: 'pre-commit autoupdate' (in Terminal)
+# 2. To skip any particular check (say pylint), run: 'SKIP=pylint pre-commit run --all-files'
+
+default_language_version:
+  python: python3.11
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: check-toml
+      - id: check-yaml
+        args: ["--unsafe"]
+      - id: check-added-large-files
+        args: ["--maxkb=512"]
+      - id: check-symlinks
+      - id: requirements-txt-fixer
+      - id: forbid-new-submodules
+      - id: no-commit-to-branch
+        args: ["--branch=main"]
+      - id: detect-private-key
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.3
+    hooks:
+    - id: ruff-check
+      args: [ --fix ]
+    - id: ruff-format
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.18.2"
+    hooks:
+      - id: mypy
+        args:
+          [
+            --no-strict-optional,
+            --ignore-missing-imports,
+          ]
+
+  - repo: https://github.com/psf/black
+    rev: 25.9.0
+    hooks:
+      - id: black
+
+
+  - repo: https://github.com/PyCQA/pylint
+    rev: v4.0.2
+    hooks:
+      - id: pylint
+        args:
+          - --disable=R0801
+        files: '.*\.py$'
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 8.2.0
+    hooks:
+      - id: flake8
+        additional_dependencies:
+          - radon
+          - flake8-docstrings
+          - Flake8-pyproject
+
+  - repo: https://github.com/pycqa/isort
+    rev: 7.0.0
+    hooks:
+      - id: isort
+
+  - repo: https://github.com/PyCQA/autoflake
+    rev: v2.3.1
+    hooks:
+      - id: autoflake
+        args:
+          - --in-place
+          - --remove-all-unused-imports
+          - --remove-unused-variable
+          - --ignore-init-module-imports
+          - --ignore-pass-statements

@@ -7,7 +7,7 @@ SERVICE_DIRS := services/agent-engine
 
 
 # ==== Bootstrap ====
-.PHONY: help setup precommit-install hooks-update install install-ci
+.PHONY: help setup resync precommit-install hooks-update install install-ci
 
 ## Show available make targets
 help:
@@ -23,13 +23,18 @@ setup:
 	$(POETRY) -C $(PRECOMMIT_PROJECT) install --with dev --no-root --sync --no-interaction
 	@echo "Root env ready: $$($(POETRY) -C $(PRECOMMIT_PROJECT) env info --path)"
 
+## Resync root environment (run after changing Python version)
+resync:
+	$(POETRY) -C $(PRECOMMIT_PROJECT) sync --with dev --no-interaction
+	@echo "Root environment resynced"
+
 ## Install pre-commit hooks into git
-precommit-install: 
+precommit-install:
 	$(POETRY) -C $(PRECOMMIT_PROJECT) run pre-commit install -t pre-commit -t commit-msg
 	@echo "Pre-commit hooks installed"
 
 ## Update pre-commit hooks to latest versions
-hooks-update: 
+hooks-update:
 	$(POETRY) -C $(PRECOMMIT_PROJECT) run pre-commit autoupdate
 	@echo "Pre-commit hooks updated"
 
@@ -64,5 +69,5 @@ lint:
 .PHONY: clean
 
 ## Remove caches & build artifacts
-clean:         
+clean:
 	rm -rf .mypy_cache .ruff_cache .pytest_cache **/__pycache__ build dist

@@ -40,6 +40,13 @@ repos:
     hooks:
       - id: codespell
 
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.9.1
+    hooks:
+      - id: commitizen
+        name: commitizen (commit-msg)
+        stages: [commit-msg]
+
   - repo: local
     hooks:
       - id: mypy

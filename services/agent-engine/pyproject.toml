@@ -13,6 +13,26 @@ openai = "^2.6.0"
 langgraph = "^1.0.2"
 deepeval = "^3.6.9"
 
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+version_files = ["pyproject.toml:version"]
+tag_format = "agent-engine-$version"
+update_changelog_on_bump = true
+bump_message = "bump(agent-engine): version $current_version → $new_version"
+changelog_file = "CHANGELOG.md"
+commit_parser = "^(feat|fix|refactor|perf|docs|style|test|chore|ci|build|revert)(\\(.+\\))?!?: .+"
+
+[tool.commitizen.change_type_map]
+feat = "Features"
+fix = "Bug Fixes"
+refactor = "Code Refactoring"
+perf = "Performance Improvements"
+docs = "Documentation"
+style = "Style"
+test = "Tests"
+chore = "Chores"
+
 [build-system]
 requires = ["poetry-core>=2.2.0"]
 build-backend = "poetry.core.masonry.api"

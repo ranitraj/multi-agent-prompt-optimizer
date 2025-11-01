@@ -7,7 +7,7 @@ SERVICE_DIRS := services/agent-engine
 
 
 # ==== Bootstrap ====
-.PHONY: help setup resync precommit-install hooks-update install install-ci
+.PHONY: help setup resync precommit-install hooks-update install install-ci commit
 
 ## Show available make targets
 help:
@@ -37,6 +37,10 @@ precommit-install:
 hooks-update:
 	$(POETRY) -C $(PRECOMMIT_PROJECT) run pre-commit autoupdate
 	@echo "Pre-commit hooks updated"
+
+## Interactive commit with Conventional Commits format (instead of git commit)
+commit:
+	$(POETRY) -C $(PRECOMMIT_PROJECT) run cz commit
 
 ## Install all dependencies (including dev) for all services
 install:

@@ -13,6 +13,7 @@ ruff = "^0.6.9"
 mypy = "^1.11.2"
 pre-commit = "^3.8.0"
 pylint = "^4.0.2"
+commitizen = "^4.9.1"
 
 [tool.ruff]
 target-version = "py311"
@@ -65,3 +66,10 @@ max-branches = 10
 max-returns = 5
 max-statements = 60
 max-complexity = 10
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+update_changelog_on_bump = false
+bump_message = "bump($service): version $current_version → $new_version"
+commit_parser = "^(feat|fix|refactor|perf|docs|style|test|chore|ci|build|revert)(\\(.+\\))?!?: .+"

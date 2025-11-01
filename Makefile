@@ -7,7 +7,7 @@ SERVICE_DIRS := services/agent-engine
 
 
 # ==== Bootstrap ====
-.PHONY: help setup resync precommit-install hooks-update install install-ci commit
+.PHONY: help setup resync precommit-install hooks-update install commit
 
 ## Show available make targets
 help:
@@ -42,21 +42,17 @@ hooks-update:
 commit:
 	$(POETRY) -C $(PRECOMMIT_PROJECT) run cz commit
 
-## Install all dependencies (including dev) for all services
+## Install all dependencies for all services (creates .venv/ in each service)
 install:
 	@set -e; for d in $(SERVICE_DIRS); do \
-		echo "==> $(POETRY) -C $$d install --with dev"; \
-		$(POETRY) -C $$d install --with dev; \
-	done
-	@echo "All services installed"
-
-## Install all dependencies (CI only) for all services (installs in Virtual env in project)
-install-ci:
-	@set -e; for d in $(SERVICE_DIRS); do \
-		echo "==> Setting up CI for $$d"; \
+		echo "==> Setting up in-project venv for $$d"; \
 		$(POETRY) -C $$d config virtualenvs.in-project true; \
-		$(POETRY) -C $$d install --with dev; \
+		echo "==> Locking dependencies for $$d"; \
+		$(POETRY) -C $$d lock; \
+		echo "==> Installing $$d"; \
+		$(POETRY) -C $$d install; \
 	done
+	@echo "All services installed with .venv/ in each directory"
 
 
 # ==== Quality ====

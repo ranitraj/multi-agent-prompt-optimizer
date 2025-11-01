@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "prompt-optimizer-agent"
+name = "agent-engine"
 version = "0.1.0"
 description = "Agent engine (Proposer + Evaluator) with LangGraph orchestration and DeepEval metrics."
 authors = ["Ranit Raj Ganguly <ranitrajganguly@gmail.com>"]
@@ -21,5 +21,5 @@ pre-commit = "^4.3.0"
 pylint = "^4.0.2"
 
 [build-system]
-requires = ["poetry-core>=1.9.0"]
+requires = ["poetry-core>=2.2.0"]
 build-backend = "poetry.core.masonry.api"
